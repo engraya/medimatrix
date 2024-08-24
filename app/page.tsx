@@ -18,16 +18,16 @@ const Home = ({ searchParams }: SearchParamProps) => {
             height={1000}
             width={1000}
             alt="patient"
-            className="mb-12 h-10 w-fit"
+            className="mb-12 justify-center items-center mx-auto h-20 w-fit"
           />
 
           <PatientForm />
 
           <div className="text-14-regular mt-20 flex justify-between">
-            <p className="justify-items-end text-dark-600 xl:text-left">
-              © 2024 CarePluse
+            <p className="justify-items-end text-emerald-50 xl:text-left">
+              © 2024 MediMatrix | All Rights Reserved.
             </p>
-            <Link href="/?admin=true" className="text-green-500">
+            <Link href="/?admin=true" className="text-emerald-50 p-2 rounded-lg bg-green-700">
               Admin
             </Link>
           </div>
@@ -35,7 +35,7 @@ const Home = ({ searchParams }: SearchParamProps) => {
       </section>
 
       <Image
-        src="/assets/images/onboarding-img.png"
+        src="/assets/images/onboarding-img.jpg"
         height={1000}
         width={1000}
         alt="patient"

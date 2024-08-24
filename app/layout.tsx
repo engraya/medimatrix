@@ -12,9 +12,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "CarePulse",
+  title: "Medimatrix",
   description:
-    "A healthcare patient management System designed to streamline patient registration, appointment scheduling, and medical records management for healthcare providers.",
+    "Streamline patient care with MediMatrix, your all-in-one solution for efficient patient management, scheduling, and health record tracking",
   icons: {
     icon: "/assets/icons/logo-icon.svg",
   },

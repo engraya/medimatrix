@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Form, FormControl } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -19,7 +18,6 @@ import {
 } from "@/constants";
 import { registerPatient } from "@/lib/actions/patient.actions";
 import { PatientFormValidation } from "@/lib/validation";
-
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
@@ -103,14 +101,19 @@ const RegisterForm = ({ user }: { user: User }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex-1 space-y-12"
       >
-        <section className="space-y-4">
-          <h1 className="header">Welcome 👋</h1>
-          <p className="text-dark-700">Let us know more about yourself.</p>
+        <section className="space-y-4 text-center">
+        <h1 className="text-2xl font-extrabold text-center leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
+              <span className="block w-full underline text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
+              Welcome
+              </span>
+              👋
+            </h1>
+          <h4 className="header mt-4 text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-300 lg:inline">Let us know more about yourself.</h4>
         </section>
 
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Personal Information</h2>
+            <h2 className="sub-header text-gray-100">Personal Information</h2>
           </div>
 
           {/* NAME */}
@@ -162,14 +165,14 @@ const RegisterForm = ({ user }: { user: User }) => {
               renderSkeleton={(field) => (
                 <FormControl>
                   <RadioGroup
-                    className="flex h-11 gap-6 xl:justify-between"
+                    className="flex h-11 gap-6 xl:justify-between text-gray-200"
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     {GenderOptions.map((option, i) => (
                       <div key={option + i} className="radio-group">
                         <RadioGroupItem value={option} id={option} />
-                        <Label htmlFor={option} className="cursor-pointer">
+                        <Label htmlFor={option} className="cursor-pointer text-gray-200">
                           {option}
                         </Label>
                       </div>
@@ -194,8 +197,8 @@ const RegisterForm = ({ user }: { user: User }) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="occupation"
-              label="Occupation"
-              placeholder=" Software Engineer"
+              label="Profession"
+              placeholder="Software Engineer"
             />
           </div>
 
@@ -221,7 +224,7 @@ const RegisterForm = ({ user }: { user: User }) => {
 
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Medical Information</h2>
+            <h2 className="sub-header text-gray-100">Medical Information</h2>
           </div>
 
           {/* PRIMARY CARE PHYSICIAN */}
@@ -268,7 +271,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           </div>
 
           {/* ALLERGY & CURRENT MEDICATIONS */}
-          <div className="flex flex-col gap-6 xl:flex-row">
+          <div className="flex flex-col gap-6 xl:flex-row text-gray-200">
             <CustomFormField
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}
@@ -308,7 +311,7 @@ const RegisterForm = ({ user }: { user: User }) => {
 
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Identification and Verfication</h2>
+            <h2 className="sub-header text-gray-100">Identification and Verfication</h2>
           </div>
 
           <CustomFormField
@@ -348,7 +351,7 @@ const RegisterForm = ({ user }: { user: User }) => {
 
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Consent and Privacy</h2>
+            <h2 className="sub-header text-gray-100">Consent and Privacy</h2>
           </div>
 
           <CustomFormField

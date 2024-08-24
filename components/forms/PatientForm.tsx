@@ -52,17 +52,22 @@ export const PatientForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">Hi there 👋</h1>
-          <p className="text-dark-700">Get started with appointments.</p>
+        <section className="mb-8 space-y-4 text-center">
+        <h1 className="text-2xl font-extrabold text-center leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
+              <span className="block w-full underline text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
+                MediMatrix
+              </span>
+            </h1>
+          <h4 className="header text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-300 lg:inline">Your Partner in Patient Care</h4>
+          <p className="text-dark-700 text-center">Manage records, appointments, and more—all in one place</p>
         </section>
 
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
-          label="Full name"
-          placeholder="John Doe"
+          label="Full Name"
+          placeholder="Muhammad Tawfiq"
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
@@ -71,8 +76,8 @@ export const PatientForm = () => {
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="email"
-          label="Email"
-          placeholder="johndoe@gmail.com"
+          label="Email Address"
+          placeholder="mtawfiq00@gmail.com"
           iconSrc="/assets/icons/email.svg"
           iconAlt="email"
         />
@@ -81,8 +86,8 @@ export const PatientForm = () => {
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
-          label="Phone number"
-          placeholder="(555) 123-4567"
+          label="Phone Number"
+          placeholder="(+234) 8098-569-1234"
         />
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>

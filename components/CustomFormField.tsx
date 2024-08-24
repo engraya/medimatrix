@@ -46,7 +46,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex rounded-md border text-gray-200 border-dark-500 bg-dark-300">
           {props.iconSrc && (
             <Image
               src={props.iconSrc}
@@ -71,7 +71,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Textarea
             placeholder={props.placeholder}
             {...field}
-            className="shad-textArea"
+            className="shad-textArea text-gray-200"
             disabled={props.disabled}
           />
         </FormControl>
@@ -86,20 +86,20 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             withCountryCallingCode
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
-            className="input-phone"
+            className="input-phone text-gray-400"
           />
         </FormControl>
       );
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 text-gray-200">
             <Checkbox
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
             />
-            <label htmlFor={props.name} className="checkbox-label">
+            <label htmlFor={props.name} className="checkbox-label text-gray-200">
               {props.label}
             </label>
           </div>
@@ -107,7 +107,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex rounded-md border text-gray-200 border-dark-500 bg-dark-400">
           <Image
             src="/assets/icons/calendar.svg"
             height={24}
@@ -132,11 +132,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         <FormControl>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="shad-select-trigger">
+              <SelectTrigger className="shad-select-trigger text-gray-200">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="shad-select-content">
+            <SelectContent className="shad-select-content text-gray-200">
               {props.children}
             </SelectContent>
           </Select>
@@ -159,7 +159,7 @@ const CustomFormField = (props: CustomProps) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel className="shad-input-label">{label}</FormLabel>
+            <FormLabel className="shad-input-label text-gray-200">{label}</FormLabel>
           )}
           <RenderInput field={field} props={props} />
 

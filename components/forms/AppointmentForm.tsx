@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { SelectItem } from "@/components/ui/select";
 import { Doctors } from "@/constants";
 import {
@@ -132,11 +131,13 @@ export const AppointmentForm = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
         {type === "create" && (
-          <section className="mb-12 space-y-4">
-            <h1 className="header">New Appointment</h1>
-            <p className="text-dark-700">
-              Request a new appointment in 10 seconds.
-            </p>
+          <section className="mb-12 space-y-4 text-center">
+                    <h1 className="text-xl font-extrabold text-center leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
+              <span className="block w-full underline text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
+              New Appointment
+              </span>
+            </h1>
+          <h4 className="header mt-8 text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-300 lg:inline">Request a new appointment instantly.</h4>
           </section>
         )}
 
@@ -169,7 +170,7 @@ export const AppointmentForm = ({
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
               name="schedule"
-              label="Expected appointment date"
+              label="Expected Appointment Date"
               showTimeSelect
               dateFormat="MM/dd/yyyy  -  h:mm aa"
             />
@@ -181,7 +182,7 @@ export const AppointmentForm = ({
                 fieldType={FormFieldType.TEXTAREA}
                 control={form.control}
                 name="reason"
-                label="Appointment reason"
+                label="Appointment Reason"
                 placeholder="Annual montly check-up"
                 disabled={type === "schedule"}
               />
@@ -203,7 +204,7 @@ export const AppointmentForm = ({
             fieldType={FormFieldType.TEXTAREA}
             control={form.control}
             name="cancellationReason"
-            label="Reason for cancellation"
+            label="Reason for Cancellation"
             placeholder="Urgent meeting came up"
           />
         )}

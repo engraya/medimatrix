@@ -14,7 +14,7 @@ const RequestSuccess = async ({
   const appointment = await getAppointment(appointmentId);
 
   const doctor = Doctors.find(
-    (doctor) => doctor.name === appointment.primaryPhysician
+    (doctor) => doctor?.name === appointment?.primaryPhysician
   );
 
   return (
@@ -26,7 +26,7 @@ const RequestSuccess = async ({
             height={1000}
             width={1000}
             alt="logo"
-            className="h-10 w-fit"
+            className="h-16 w-fit"
           />
         </Link>
 
@@ -37,14 +37,14 @@ const RequestSuccess = async ({
             width={280}
             alt="success"
           />
-          <h2 className="header mb-6 max-w-[600px] text-center">
+          <h2 className="header mb-6 max-w-[600px] text-emerald-50 text-center">
             Your <span className="text-green-500">appointment request</span> has
             been successfully submitted!
           </h2>
-          <p>We&apos;ll be in touch shortly to confirm.</p>
+          <p className="text-emerald-50">We&apos;ll be in touch shortly to confirm.</p>
         </section>
 
-        <section className="request-details">
+        <section className="request-details text-emerald-50">
           <p>Requested appointment details: </p>
           <div className="flex items-center gap-3">
             <Image
@@ -67,13 +67,18 @@ const RequestSuccess = async ({
           </div>
         </section>
 
-        <Button variant="outline" className="shad-primary-btn" asChild>
+        {/* <Button variant="outline" className="shad-primary-btn" asChild>
           <Link href={`/patients/${userId}/new-appointment`}>
             New Appointment
           </Link>
+        </Button> */}
+        <Button variant="outline" className="text-white bg-red-300" asChild>
+          <Link href={`/`}>
+            Home Page
+          </Link>
         </Button>
 
-        <p className="copyright">© 2024 CarePluse</p>
+        <p className="copyright text-emerald-50">© 2024 Medimatrix</p>
       </div>
     </div>
   );

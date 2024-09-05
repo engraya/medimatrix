@@ -23,7 +23,7 @@ const Appointment = async ({ params: { userId } }: SearchParamProps) => {
             type="create"
           />
 
-          <p className="copyright mt-10 py-12">© 2024 MediMatrix | All Rights Reserved.</p>
+          <p className="copyright mt-10 py-12 text-emerald-50">© 2024 MediMatrix | All Rights Reserved.</p>
         </div>
       </section>
 

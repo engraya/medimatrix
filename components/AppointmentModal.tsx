@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Appointment } from "@/types/appwrite.types";
+import { Appointment } from "@/types/api";
 
 import { AppointmentForm } from "./forms/AppointmentForm";
 
@@ -23,8 +23,8 @@ export const AppointmentModal = ({
   appointment,
   type,
 }: {
-  patientId: string;
-  userId: string;
+  patientId?: string;
+  userId?: string;
   appointment?: Appointment;
   type: "schedule" | "cancel";
   title: string;
@@ -50,13 +50,13 @@ export const AppointmentModal = ({
           </DialogDescription>
         </DialogHeader>
 
-        <AppointmentForm
+        {open && <AppointmentForm
           userId={userId}
           patientId={patientId}
           type={type}
           appointment={appointment}
           setOpen={setOpen}
-        />
+        />}
       </DialogContent>
     </Dialog>
   );

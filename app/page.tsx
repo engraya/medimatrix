@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { PatientForm } from "@/components/forms/PatientForm";
-import { PasskeyModal } from "@/components/PasskeyModal";
 
-const Home = ({ searchParams }: SearchParamProps) => {
-  const isAdmin = searchParams?.admin === "true";
+const Home = () => {
 
   return (
     <div className="flex h-screen max-h-screen">
-      {isAdmin && <PasskeyModal />}
 
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
@@ -27,7 +24,7 @@ const Home = ({ searchParams }: SearchParamProps) => {
             <p className="justify-items-end text-emerald-50 xl:text-left">
               © 2024 MediMatrix | All Rights Reserved.
             </p>
-            <Link href="/?admin=true" className="text-emerald-50 p-2 rounded-lg bg-green-700">
+            <Link href="/login" className="text-emerald-50 p-2 rounded-lg bg-green-700">
               Admin
             </Link>
           </div>

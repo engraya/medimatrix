@@ -5,9 +5,16 @@ import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DataTable";
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
+import { requireStaff } from "@/lib/api/server";
+import { getDoctors } from "@/lib/api/doctors";
+import { DoctorsProvider } from "@/components/DoctorsProvider";
+import { LogoutButton } from "@/components/LogoutButton";
 
-const AdminPage = async () => {
-  const appointments = await getRecentAppointmentList();
+const AdminPage = async ({ searchParams }: SearchParamProps) => {
+  await requireStaff();
+  const rawPage = Number((await searchParams).page ?? 1);
+  const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1;
+  const [appointments, doctors] = await Promise.all([getRecentAppointmentList(page), getDoctors()]);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
@@ -28,6 +35,7 @@ const AdminPage = async () => {
         </Link>
 
         <p className="text-16-semibold">Admin Dashboard</p>
+        <LogoutButton />
       </header>
 
       <main className="admin-main">
@@ -64,7 +72,9 @@ const AdminPage = async () => {
           />
         </section>
 
-        <DataTable columns={columns} data={appointments.documents} />
+        <DoctorsProvider doctors={doctors}>
+          <DataTable columns={columns} data={appointments.documents} page={page} total={appointments.totalCount} />
+        </DoctorsProvider>
       </main>
     </div>
   );

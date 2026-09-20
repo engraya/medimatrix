@@ -1,15 +1,14 @@
 "use client";
 
 import {
-  getPaginationRowModel,
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,35 +19,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { decryptKey } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: number;
+  total: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  page,
+  total,
 }: DataTableProps<TData, TValue>) {
-  const encryptedKey =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("accessKey")
-      : null;
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const navigate = (next: number) => startTransition(() => router.push(`/admin?page=${next}`));
 
-  useEffect(() => {
-    const accessKey = encryptedKey && decryptKey(encryptedKey);
-
-    if (accessKey !== process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()) {
-      redirect("/");
-    }
-  }, [encryptedKey]);
-
+  // React Compiler is not enabled; TanStack manages the table's state.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
   });
 
   return (
@@ -97,11 +92,13 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       <div className="table-actions">
+        <p aria-live="polite">Page {page} of {Math.max(1, Math.ceil(total / 20))}</p>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => navigate(page - 1)}
+          disabled={pending || page <= 1}
+          aria-label="Previous page"
           className="shad-gray-btn"
         >
           <Image
@@ -114,8 +111,9 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={() => navigate(page + 1)}
+          disabled={pending || page * 20 >= total}
+          aria-label="Next page"
           className="shad-gray-btn"
         >
           <Image

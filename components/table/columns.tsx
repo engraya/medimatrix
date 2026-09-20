@@ -1,11 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
 
-import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
-import { Appointment } from "@/types/appwrite.types";
+import { Appointment } from "@/types/api";
 
 import { AppointmentModal } from "../AppointmentModal";
 import { StatusBadge } from "../StatusBadge";
@@ -22,7 +20,7 @@ export const columns: ColumnDef<Appointment>[] = [
     header: "Patient",
     cell: ({ row }) => {
       const appointment = row.original;
-      return <p className="text-14-medium ">{appointment?.patient?.name}</p>;
+      return <p className="text-14-medium ">{appointment.patient?.user?.name ?? appointment.patient?.name ?? "Patient"}</p>;
     },
   },
   {
@@ -32,7 +30,7 @@ export const columns: ColumnDef<Appointment>[] = [
       const appointment = row.original;
       return (
         <div className="min-w-[115px]">
-          <StatusBadge status={appointment?.status} />
+          <StatusBadge status={appointment.status.toLowerCase() as Status} />
         </div>
       );
     },
@@ -50,25 +48,14 @@ export const columns: ColumnDef<Appointment>[] = [
     },
   },
   {
-    accessorKey: "primaryPhysician",
+    accessorKey: "doctorId",
     header: "Doctor",
     cell: ({ row }) => {
       const appointment = row.original;
 
-      const doctor = Doctors.find(
-        (doctor) => doctor?.name === appointment?.primaryPhysician
-      );
-
       return (
         <div className="flex items-center gap-3">
-          <Image
-            src={doctor?.image!}
-            alt="doctor"
-            width={100}
-            height={100}
-            className="size-8"
-          />
-          <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
+          <p className="whitespace-nowrap">{appointment.doctor?.name ?? "Doctor"}</p>
         </div>
       );
     },
@@ -82,7 +69,7 @@ export const columns: ColumnDef<Appointment>[] = [
       return (
         <div className="flex gap-1">
           <AppointmentModal
-            patientId={appointment?.patient?.$id}
+            patientId={appointment.patientId}
             userId={appointment?.userId}
             appointment={appointment}
             type="schedule"
@@ -90,7 +77,7 @@ export const columns: ColumnDef<Appointment>[] = [
             description="Please confirm the following details to schedule."
           />
           <AppointmentModal
-            patientId={appointment?.patient?.$id}
+            patientId={appointment.patientId}
             userId={appointment?.userId}
             appointment={appointment}
             type="cancel"

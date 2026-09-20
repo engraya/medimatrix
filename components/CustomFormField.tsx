@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { E164Number } from "libphonenumber-js/core";
 import Image from "next/image";
 import ReactDatePicker from "react-datepicker";
-import { Control } from "react-hook-form";
+import { Control, FieldValues, FieldPath } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 
 import { Checkbox } from "./ui/checkbox";
@@ -27,9 +25,9 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 
-interface CustomProps {
-  control: Control<any>;
-  name: string;
+interface CustomProps<T extends FieldValues> {
+  control: Control<T>;
+  name: FieldPath<T>;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -42,7 +40,7 @@ interface CustomProps {
   fieldType: FormFieldType;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; props: CustomProps<T> }) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -58,8 +56,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           )}
           <FormControl>
             <Input
+              type={props.name === "email" ? "email" : "text"}
               placeholder={props.placeholder}
               {...field}
+              disabled={props.disabled}
               className="shad-input border-0"
             />
           </FormControl>
@@ -80,12 +80,15 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <PhoneInput
-            defaultCountry="US"
+            flagUrl="/assets/flags/{XX}.svg"
+            defaultCountry="NG"
             placeholder={props.placeholder}
             international
             withCountryCallingCode
-            value={field.value as E164Number | undefined}
-            onChange={field.onChange}
+            value={field.value || undefined}
+            onChange={value => field.onChange(value ?? "")}
+            onBlur={field.onBlur}
+            disabled={props.disabled}
             className="input-phone text-gray-400"
           />
         </FormControl>
@@ -118,10 +121,15 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <FormControl>
             <ReactDatePicker
               showTimeSelect={props.showTimeSelect ?? false}
-              selected={field.value}
-                 // @ts-ignore
-              onChange={(date: Date) => field.onChange(date)}
+              selected={field.value ?? null}
+              onChange={(date: Date | null) => field.onChange(date)}
+              maxDate={props.name === "birthDate" ? new Date() : undefined}
+              minDate={props.name === "schedule" ? new Date() : undefined}
+              disabled={props.disabled}
               timeInputLabel="Time:"
+              showYearDropdown={props.name === "birthDate"}
+              showMonthDropdown={props.name === "birthDate"}
+              dropdownMode="select"
               dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
               wrapperClassName="date-picker"
             />
@@ -130,8 +138,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       );
     case FormFieldType.SELECT:
       return (
-        <FormControl>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} value={field.value ?? ""} disabled={props.disabled}>
             <FormControl>
               <SelectTrigger className="shad-select-trigger text-gray-200">
                 <SelectValue placeholder={props.placeholder} />
@@ -141,7 +148,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               {props.children}
             </SelectContent>
           </Select>
-        </FormControl>
       );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
@@ -150,7 +156,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
   }
 };
 
-const CustomFormField = (props: CustomProps) => {
+const CustomFormField = <T extends FieldValues,>(props: CustomProps<T>) => {
   const { control, name, label } = props;
 
   return (

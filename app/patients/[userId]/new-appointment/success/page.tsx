@@ -2,20 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Doctors } from "@/constants";
+import { notFound } from "next/navigation";
+import { requirePatient } from "@/lib/api/server";
+import { ApiError } from "@/lib/api/shared";
 import { getAppointment } from "@/lib/actions/appointment.actions";
 import { formatDateTime } from "@/lib/utils";
 
 const RequestSuccess = async ({
   searchParams,
-  params: { userId },
+  params,
 }: SearchParamProps) => {
-  const appointmentId = (searchParams?.appointmentId as string) || "";
-  const appointment = await getAppointment(appointmentId);
-
-  const doctor = Doctors.find(
-    (doctor) => doctor?.name === appointment?.primaryPhysician
-  );
+  const { userId } = await params;
+  await requirePatient(userId);
+  const appointmentId = (await searchParams).appointmentId;
+  if (typeof appointmentId !== "string" || !/^[\w-]{1,128}$/.test(appointmentId)) notFound();
+  let appointment;
+  try { appointment = await getAppointment(appointmentId); }
+  catch (error) { if (error instanceof ApiError && error.status === 404) notFound(); throw error; }
 
   return (
     <div className=" flex h-screen max-h-screen px-[5%]">
@@ -33,6 +36,7 @@ const RequestSuccess = async ({
         <section className="flex flex-col items-center">
           <Image
             src="/assets/gifs/success.gif"
+            unoptimized
             height={300}
             width={280}
             alt="success"
@@ -47,14 +51,7 @@ const RequestSuccess = async ({
         <section className="request-details text-emerald-50">
           <p>Requested appointment details: </p>
           <div className="flex items-center gap-3">
-            <Image
-              src={doctor?.image!}
-              alt="doctor"
-              width={100}
-              height={100}
-              className="size-6"
-            />
-            <p className="whitespace-nowrap">Dr. {doctor?.name}</p>
+            <p className="whitespace-nowrap">{appointment.doctor?.name ?? "Your selected doctor"}</p>
           </div>
           <div className="flex gap-2">
             <Image

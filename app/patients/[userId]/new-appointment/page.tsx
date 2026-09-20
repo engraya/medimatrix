@@ -1,9 +1,15 @@
 import Image from "next/image";
 import { AppointmentForm } from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patient.actions";
+import { redirect } from "next/navigation";
+import { getDoctors } from "@/lib/api/doctors";
+import { DoctorsProvider } from "@/components/DoctorsProvider";
 
-const Appointment = async ({ params: { userId } }: SearchParamProps) => {
+const Appointment = async ({ params }: SearchParamProps) => {
+  const { userId } = await params;
   const patient = await getPatient(userId);
+  if (!patient) redirect(`/patients/${userId}/register`);
+  const doctors = await getDoctors();
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -17,11 +23,11 @@ const Appointment = async ({ params: { userId } }: SearchParamProps) => {
             className="mb-12 justify-center items-center mx-auto h-20 w-fit"
           />
 
-          <AppointmentForm
-            patientId={patient?.$id}
+          <DoctorsProvider doctors={doctors}><AppointmentForm
+            patientId={patient.id}
             userId={userId}
             type="create"
-          />
+          /></DoctorsProvider>
 
           <p className="copyright mt-10 py-12 text-emerald-50">© 2024 MediMatrix | All Rights Reserved.</p>
         </div>

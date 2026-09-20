@@ -7,7 +7,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-import { createUser } from "@/lib/actions/patient.actions";
+import { api } from "@/lib/api/client";
+import { errorMessage, resourceId } from "@/lib/api/shared";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { UserFormValidation } from "@/lib/validation";
 
 import "react-phone-number-input/style.css";
@@ -17,6 +20,9 @@ import SubmitButton from "../SubmitButton";
 export const PatientForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [code, setCode] = useState("");
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
@@ -29,6 +35,7 @@ export const PatientForm = () => {
 
   const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
+    setError("");
 
     try {
       const user = {
@@ -37,13 +44,17 @@ export const PatientForm = () => {
         phone: values.phone,
       };
 
-      const newUser = await createUser(user);
-
-      if (newUser) {
-        router.push(`/patients/${newUser.$id}/register`);
+      if (userId) {
+        await api("/auth/patient/verify", { method: "POST", body: JSON.stringify({ userId, code }) });
+        router.push(`/patients/${resourceId(userId)}/register`);
+        router.refresh();
+      } else {
+        const result = await api<{ userId: string }>("/auth/patient/start", { method: "POST", body: JSON.stringify(user) });
+        resourceId(result.userId);
+        setUserId(result.userId);
       }
     } catch (error) {
-      console.log(error);
+      setError(errorMessage(error));
     }
 
     setIsLoading(false);
@@ -66,6 +77,7 @@ export const PatientForm = () => {
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
+          disabled={!!userId || isLoading}
           label="Full Name"
           placeholder="Muhammad Tawfiq"
           iconSrc="/assets/icons/user.svg"
@@ -76,6 +88,7 @@ export const PatientForm = () => {
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="email"
+          disabled={!!userId || isLoading}
           label="Email Address"
           placeholder="mtawfiq00@gmail.com"
           iconSrc="/assets/icons/email.svg"
@@ -86,11 +99,19 @@ export const PatientForm = () => {
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
+          disabled={!!userId || isLoading}
           label="Phone Number"
           placeholder="(+234) 8098-569-1234"
         />
 
-        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+        {userId && <div className="space-y-2">
+          <Label htmlFor="patient-code">Verification code</Label>
+          <p className="text-sm">Enter the code sent to you to continue.</p>
+          <Input id="patient-code" value={code} onChange={event => setCode(event.target.value)} inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required />
+          <button type="button" disabled={isLoading} onClick={() => { setUserId(""); setCode(""); }} className="text-sm underline">Change details or request another code</button>
+        </div>}
+        {error && <p role="alert" className="shad-error">{error}</p>}
+        <SubmitButton isLoading={isLoading}>{userId ? "Verify and continue" : "Get Started"}</SubmitButton>
       </form>
     </Form>
   );

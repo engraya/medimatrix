@@ -1,0 +1,802 @@
+{
+  "baseUrl": "/api/v1",
+  "successEnvelope": {
+    "success": true,
+    "data": {},
+    "message": "OK",
+    "meta": {
+      "page": 1,
+      "limit": 20,
+      "total": 1,
+      "totalPages": 1
+    }
+  },
+  "errorEnvelope": {
+    "success": false,
+    "error": {
+      "code": "VALIDATION_ERROR",
+      "message": "Request failed validation",
+      "details": [
+        {
+          "path": "email",
+          "message": "Invalid email"
+        }
+      ]
+    },
+    "requestId": "req_01JZ7Y2M4F0Q8K6S5H1N2P3Q4R"
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/health/live",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "status": "ok"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/health/ready",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "status": "ok",
+          "db": "ok",
+          "workerLastHeartbeat": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/doctors",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "id": "d_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Dr. Ada Okafor",
+            "specialty": "Cardiology",
+            "imageUrl": "https://cdn.example.com/doctors/ada.jpg",
+            "isActive": true,
+            "createdAt": "2026-09-01T09:00:00.000Z",
+            "updatedAt": "2026-09-01T09:00:00.000Z"
+          }
+        ],
+        "message": "OK",
+        "meta": {
+          "page": 1,
+          "limit": 20,
+          "total": 1,
+          "totalPages": 1
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/doctors/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "d_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Dr. Ada Okafor",
+          "specialty": "Cardiology",
+          "imageUrl": "https://cdn.example.com/doctors/ada.jpg",
+          "isActive": true,
+          "createdAt": "2026-09-01T09:00:00.000Z",
+          "updatedAt": "2026-09-01T09:00:00.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/doctors",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "d_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Dr. Ada Okafor",
+          "specialty": "Cardiology",
+          "imageUrl": "https://cdn.example.com/doctors/ada.jpg",
+          "isActive": true,
+          "createdAt": "2026-09-01T09:00:00.000Z",
+          "updatedAt": "2026-09-01T09:00:00.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/doctors/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "d_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Dr. Ada Okafor",
+          "specialty": "Neurology",
+          "imageUrl": "https://cdn.example.com/doctors/ada.jpg",
+          "isActive": true,
+          "createdAt": "2026-09-01T09:00:00.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/doctors/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "d_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Dr. Ada Okafor",
+          "specialty": "Cardiology",
+          "imageUrl": "https://cdn.example.com/doctors/ada.jpg",
+          "isActive": false,
+          "createdAt": "2026-09-01T09:00:00.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "u_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "role": "ADMIN",
+            "phone": "+2348012345678",
+            "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+            "createdAt": "2026-09-01T09:00:00.000Z"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/refresh",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "u_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "role": "ADMIN",
+            "phone": "+2348012345678",
+            "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+            "createdAt": "2026-09-01T09:00:00.000Z"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/logout",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "u_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "role": "ADMIN",
+            "phone": "+2348012345678",
+            "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+            "createdAt": "2026-09-01T09:00:00.000Z"
+          },
+          "patientId": null
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/patient/start",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "channel": "EMAIL",
+          "registered": false
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/patient/verify",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "u_123e4567-e89b-12d3-a456-426614174000",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "role": "PATIENT",
+            "phone": "+2348012345678",
+            "emailVerifiedAt": "2026-09-20T08:15:42.000Z",
+            "createdAt": "2026-09-01T09:00:00.000Z"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/forgot-password",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/reset-password",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/verify-email",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/phone/start",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/auth/phone/verify",
+      "sampleResponse": {
+        "success": true,
+        "data": null,
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users/me",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "u_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Jane Doe",
+          "email": "jane.doe@example.com",
+          "role": "ADMIN",
+          "phone": "+2348012345678",
+          "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+          "createdAt": "2026-09-01T09:00:00.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/users/me",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "u_123e4567-e89b-12d3-a456-426614174000",
+          "name": "Jane Smith",
+          "email": "jane.doe@example.com",
+          "role": "ADMIN",
+          "phone": "+2348023456789",
+          "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+          "createdAt": "2026-09-01T09:00:00.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "id": "u_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "role": "ADMIN",
+            "phone": "+2348012345678",
+            "emailVerifiedAt": "2026-09-18T10:00:00.000Z",
+            "createdAt": "2026-09-01T09:00:00.000Z"
+          }
+        ],
+        "message": "OK",
+        "meta": {
+          "page": 1,
+          "limit": 20,
+          "total": 1,
+          "totalPages": 1
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/users/staff",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "u_987e6543-e21b-12d3-a456-426614174000",
+          "name": "Nurse Grace",
+          "email": "grace@example.com",
+          "role": "STAFF",
+          "phone": "+2348065432109",
+          "emailVerifiedAt": null,
+          "createdAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/users/:id/role",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "u_987e6543-e21b-12d3-a456-426614174000",
+          "name": "Nurse Grace",
+          "email": "grace@example.com",
+          "role": "ADMIN",
+          "phone": "+2348065432109",
+          "emailVerifiedAt": null,
+          "createdAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/patients",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "p_123e4567-e89b-12d3-a456-426614174000",
+          "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "birthDate": "1994-04-02",
+          "gender": "OTHER",
+          "address": "12 Example Road",
+          "occupation": "Engineer",
+          "emergencyContactName": "Example Contact",
+          "emergencyContactNumber": "+2348012345678",
+          "insuranceProvider": "Example Insurance",
+          "insurancePolicyNumber": "POLICY-123",
+          "primaryDoctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "treatmentConsentAt": "2026-09-20T08:15:42.000Z",
+          "disclosureConsentAt": "2026-09-20T08:15:42.000Z",
+          "privacyConsentAt": "2026-09-20T08:15:42.000Z",
+          "createdAt": "2026-09-20T08:15:42.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/patients/me",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "p_123e4567-e89b-12d3-a456-426614174000",
+          "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "birthDate": "1994-04-02",
+          "gender": "OTHER",
+          "address": "12 Example Road",
+          "occupation": "Engineer",
+          "emergencyContactName": "Example Contact",
+          "emergencyContactNumber": "+2348012345678",
+          "insuranceProvider": "Example Insurance",
+          "insurancePolicyNumber": "POLICY-123",
+          "primaryDoctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "allergies": null,
+          "currentMedication": null,
+          "familyMedicalHistory": null,
+          "pastMedicalHistory": null,
+          "createdAt": "2026-09-20T08:15:42.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/patients",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "id": "p_123e4567-e89b-12d3-a456-426614174000",
+            "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+            "birthDate": "1994-04-02",
+            "gender": "OTHER",
+            "address": "12 Example Road",
+            "occupation": "Engineer",
+            "emergencyContactName": "Example Contact",
+            "emergencyContactNumber": "+2348012345678",
+            "insuranceProvider": "Example Insurance",
+            "insurancePolicyNumber": "POLICY-123",
+            "primaryDoctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+            "user": {
+              "id": "u_123e4567-e89b-12d3-a456-426614174000",
+              "name": "John Doe",
+              "email": "john.doe@example.com",
+              "role": "PATIENT",
+              "phone": "+2348012345678"
+            }
+          }
+        ],
+        "message": "OK",
+        "meta": {
+          "page": 1,
+          "limit": 20,
+          "total": 1,
+          "totalPages": 1
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/patients/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "p_123e4567-e89b-12d3-a456-426614174000",
+          "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "birthDate": "1994-04-02",
+          "gender": "OTHER",
+          "address": "12 Example Road",
+          "occupation": "Engineer",
+          "emergencyContactName": "Example Contact",
+          "emergencyContactNumber": "+2348012345678",
+          "insuranceProvider": "Example Insurance",
+          "insurancePolicyNumber": "POLICY-123",
+          "primaryDoctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "createdAt": "2026-09-20T08:15:42.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/patients/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "p_123e4567-e89b-12d3-a456-426614174000",
+          "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "birthDate": "1994-04-02",
+          "gender": "OTHER",
+          "address": "12 Example Road",
+          "occupation": "Engineer",
+          "emergencyContactName": "Example Contact",
+          "emergencyContactNumber": "+2348012345678",
+          "insuranceProvider": "Example Insurance",
+          "insurancePolicyNumber": "POLICY-123",
+          "primaryDoctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "allergies": "Penicillin allergy",
+          "updatedAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/appointments",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "a_123e4567-e89b-12d3-a456-426614174000",
+          "patientId": "p_123e4567-e89b-12d3-a456-426614174000",
+          "doctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "schedule": "2026-10-05T10:30:00.000Z",
+          "reason": "Routine check-up",
+          "note": "Needs blood pressure review",
+          "status": "PENDING",
+          "createdAt": "2026-09-20T08:15:42.000Z",
+          "updatedAt": "2026-09-20T08:15:42.000Z",
+          "patient": {
+            "id": "p_123e4567-e89b-12d3-a456-426614174000",
+            "userId": "u_123e4567-e89b-12d3-a456-426614174000",
+            "user": {
+              "id": "u_123e4567-e89b-12d3-a456-426614174000",
+              "name": "John Doe",
+              "email": "john.doe@example.com"
+            }
+          },
+          "doctor": {
+            "id": "d_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Dr. Ada Okafor",
+            "specialty": "Cardiology"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/appointments",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "id": "a_123e4567-e89b-12d3-a456-426614174000",
+            "patientId": "p_123e4567-e89b-12d3-a456-426614174000",
+            "doctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+            "schedule": "2026-10-05T10:30:00.000Z",
+            "reason": "Routine check-up",
+            "status": "PENDING",
+            "patient": {
+              "id": "p_123e4567-e89b-12d3-a456-426614174000",
+              "user": {
+                "id": "u_123e4567-e89b-12d3-a456-426614174000",
+                "name": "John Doe",
+                "email": "john.doe@example.com"
+              }
+            },
+            "doctor": {
+              "id": "d_123e4567-e89b-12d3-a456-426614174000",
+              "name": "Dr. Ada Okafor",
+              "specialty": "Cardiology"
+            }
+          }
+        ],
+        "message": "OK",
+        "meta": {
+          "page": 1,
+          "limit": 20,
+          "total": 1,
+          "totalPages": 1
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/appointments/stats",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "total": 12,
+          "pending": 4,
+          "scheduled": 6,
+          "cancelled": 2
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/appointments/:id",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "a_123e4567-e89b-12d3-a456-426614174000",
+          "patientId": "p_123e4567-e89b-12d3-a456-426614174000",
+          "doctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "schedule": "2026-10-05T10:30:00.000Z",
+          "reason": "Routine check-up",
+          "status": "PENDING",
+          "patient": {
+            "id": "p_123e4567-e89b-12d3-a456-426614174000",
+            "user": {
+              "id": "u_123e4567-e89b-12d3-a456-426614174000",
+              "name": "John Doe",
+              "email": "john.doe@example.com"
+            }
+          },
+          "doctor": {
+            "id": "d_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Dr. Ada Okafor",
+            "specialty": "Cardiology"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/appointments/:id/schedule",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "a_123e4567-e89b-12d3-a456-426614174000",
+          "patientId": "p_123e4567-e89b-12d3-a456-426614174000",
+          "doctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "schedule": "2026-10-06T11:00:00.000Z",
+          "reason": "Routine check-up",
+          "status": "SCHEDULED",
+          "scheduledAt": "2026-09-20T08:15:42.000Z",
+          "patient": {
+            "id": "p_123e4567-e89b-12d3-a456-426614174000",
+            "userId": "u_123e4567-e89b-12d3-a456-426614174000"
+          },
+          "doctor": {
+            "id": "d_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Dr. Ada Okafor",
+            "specialty": "Cardiology"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/appointments/:id/cancel",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "a_123e4567-e89b-12d3-a456-426614174000",
+          "patientId": "p_123e4567-e89b-12d3-a456-426614174000",
+          "doctorId": "d_123e4567-e89b-12d3-a456-426614174000",
+          "schedule": "2026-10-06T11:00:00.000Z",
+          "reason": "Routine check-up",
+          "status": "CANCELLED",
+          "cancellationReason": "Travel conflict",
+          "cancelledAt": "2026-09-20T08:15:42.000Z",
+          "patient": {
+            "id": "p_123e4567-e89b-12d3-a456-426614174000",
+            "userId": "u_123e4567-e89b-12d3-a456-426614174000"
+          },
+          "doctor": {
+            "id": "d_123e4567-e89b-12d3-a456-426614174000",
+            "name": "Dr. Ada Okafor",
+            "specialty": "Cardiology"
+          }
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/files",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "f_123e4567-e89b-12d3-a456-426614174000",
+          "originalName": "lab-report.pdf",
+          "mimeType": "application/pdf",
+          "sizeBytes": 154200,
+          "ownerUserId": "u_123e4567-e89b-12d3-a456-426614174000",
+          "createdAt": "2026-09-20T08:15:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/files/:id/url",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "f_123e4567-e89b-12d3-a456-426614174000",
+          "url": "https://localhost:4000/api/v1/files/f_123e4567-e89b-12d3-a456-426614174000/download?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+          "expiresAt": "2026-09-20T08:20:42.000Z"
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/notifications",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "id": "n_123e4567-e89b-12d3-a456-426614174000",
+            "type": "APPOINTMENT_REQUESTED",
+            "title": "Appointment requested",
+            "body": "A patient has requested an appointment. Review it in the dashboard.",
+            "readAt": null,
+            "createdAt": "2026-09-20T08:15:42.000Z"
+          }
+        ],
+        "message": "OK",
+        "meta": {
+          "page": 1,
+          "limit": 20,
+          "total": 1,
+          "totalPages": 1,
+          "unreadCount": 1
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/notifications/preferences",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "type": "APPOINTMENT_REQUESTED",
+            "channel": "IN_APP",
+            "enabled": true
+          },
+          {
+            "type": "APPOINTMENT_REQUESTED",
+            "channel": "EMAIL",
+            "enabled": false
+          }
+        ],
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/notifications/preferences",
+      "sampleResponse": {
+        "success": true,
+        "data": [
+          {
+            "type": "APPOINTMENT_REQUESTED",
+            "channel": "IN_APP",
+            "enabled": true
+          },
+          {
+            "type": "APPOINTMENT_REQUESTED",
+            "channel": "EMAIL",
+            "enabled": false
+          }
+        ],
+        "message": "OK"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/notifications/read-all",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "updated": 3
+        },
+        "message": "OK"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/notifications/:id/read",
+      "sampleResponse": {
+        "success": true,
+        "data": {
+          "id": "n_123e4567-e89b-12d3-a456-426614174000",
+          "readAt": "2026-09-20T08:16:00.000Z"
+        },
+        "message": "OK"
+      }
+    }
+  ]
+}

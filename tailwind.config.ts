@@ -21,8 +21,30 @@ const config = {
     },
     extend: {
       colors: {
+        ...Object.fromEntries(
+          ["background", "foreground", "border", "input", "ring"].map(
+            (name) => [name, `hsl(var(--${name}))`],
+          ),
+        ),
+        ...Object.fromEntries(
+          [
+            "primary",
+            "secondary",
+            "muted",
+            "accent",
+            "destructive",
+            "popover",
+            "card",
+          ].map((name) => [
+            name,
+            {
+              DEFAULT: `hsl(var(--${name}))`,
+              foreground: `hsl(var(--${name}-foreground))`,
+            },
+          ]),
+        ),
         green: {
-          500: "#24AE7C",
+          500: "#5ee0bf",
           600: "#0D2A1F",
         },
         blue: {

@@ -35,7 +35,8 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const navigate = (next: number) => startTransition(() => router.push(`/admin?page=${next}`));
+  const navigate = (next: number) =>
+    startTransition(() => router.push(`/admin?page=${next}`));
 
   // React Compiler is not enabled; TanStack manages the table's state.
   // eslint-disable-next-line react-hooks/incompatible-library
@@ -47,8 +48,14 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="data-table">
-      <Table className="shad-table">
+    <div className="data-table" aria-busy={pending}>
+      <p className="border-b border-border px-4 py-3 text-xs text-muted-foreground md:hidden">
+        Swipe across to view appointment details and actions.
+      </p>
+      <Table
+        className="shad-table min-w-[720px]"
+        aria-label="Patient appointments"
+      >
         <TableHeader className=" bg-dark-200">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="shad-table-row-header">
@@ -59,7 +66,7 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 );
@@ -85,14 +92,16 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No appointments to display. New requests will appear here.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
       <div className="table-actions">
-        <p aria-live="polite">Page {page} of {Math.max(1, Math.ceil(total / 20))}</p>
+        <p aria-live="polite">
+          Page {page} of {Math.max(1, Math.ceil(total / 20))}
+        </p>
         <Button
           variant="outline"
           size="sm"

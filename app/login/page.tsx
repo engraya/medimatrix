@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { CareShell } from "@/components/CareShell";
 import { api } from "@/lib/api/client";
 import { errorMessage } from "@/lib/api/shared";
 import { Input } from "@/components/ui/input";
@@ -13,23 +14,69 @@ export default function Login() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const values = new FormData(event.currentTarget);
-    setBusy(true); setError("");
+    setBusy(true);
+    setError("");
     try {
-      await api("/auth/login", { method: "POST", body: JSON.stringify({ email: values.get("email"), password: values.get("password") }) });
+      await api("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: values.get("email"),
+          password: values.get("password"),
+        }),
+      });
       // A full navigation drops all cached data from the previous identity.
       // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.assign("/admin");
-    } catch (error) { setError(errorMessage(error)); setBusy(false); }
+    } catch (error) {
+      setError(errorMessage(error));
+      setBusy(false);
+    }
   }
-  return <main className="container max-w-md py-20 space-y-6">
-    <h1 className="header">Staff sign in</h1>
-    <form onSubmit={submit} className="space-y-6">
-      <div className="space-y-2"><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" autoComplete="username" required /></div>
-      <div className="space-y-2"><Label htmlFor="password">Password</Label><Input id="password" name="password" type="password" autoComplete="current-password" required /></div>
-      {error && <p role="alert" className="shad-error">{error}</p>}
-      <SubmitButton isLoading={busy}>Sign in</SubmitButton>
-    </form>
-    <Link href="/account/forgot-password" className="block underline">Forgot password?</Link>
-    <Link href="/" className="block underline">Patient sign in</Link>
-  </main>;
+  return (
+    <CareShell>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <p className="eyebrow">CARE TEAM PORTAL</p>
+          <h1 className="header">Staff sign in</h1>
+          <p className="text-muted-foreground">
+            Welcome back. Sign in to manage appointments and patient care.
+          </p>
+        </div>
+        <form onSubmit={submit} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="username"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+            />
+          </div>
+          {error && (
+            <p role="alert" className="shad-error">
+              {error}
+            </p>
+          )}
+          <SubmitButton isLoading={busy}>Sign in</SubmitButton>
+        </form>
+        <Link href="/account/forgot-password" className="block underline">
+          Forgot password?
+        </Link>
+        <Link href="/" className="block underline">
+          Patient sign in
+        </Link>
+      </div>
+    </CareShell>
+  );
 }

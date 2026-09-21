@@ -40,7 +40,13 @@ interface CustomProps<T extends FieldValues> {
   fieldType: FormFieldType;
 }
 
-const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; props: CustomProps<T> }) => {
+const RenderInput = <T extends FieldValues>({
+  field,
+  props,
+}: {
+  field: any;
+  props: CustomProps<T>;
+}) => {
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -50,8 +56,8 @@ const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; pro
               src={props.iconSrc}
               height={24}
               width={24}
-              alt={props.iconAlt || "icon"}
-              className="ml-2"
+              alt=""
+              className="ml-3 opacity-60"
             />
           )}
           <FormControl>
@@ -86,27 +92,29 @@ const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; pro
             international
             withCountryCallingCode
             value={field.value || undefined}
-            onChange={value => field.onChange(value ?? "")}
+            onChange={(value) => field.onChange(value ?? "")}
             onBlur={field.onBlur}
             disabled={props.disabled}
-            className="input-phone text-gray-400"
+            className="input-phone text-foreground"
           />
         </FormControl>
       );
     case FormFieldType.CHECKBOX:
       return (
-        <FormControl>
-          <div className="flex items-center gap-4 text-gray-200">
+        <div className="flex items-start gap-4 text-gray-200">
+          <FormControl>
             <Checkbox
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
+              disabled={props.disabled}
+              className="mt-1"
             />
-            <label htmlFor={props.name} className="checkbox-label text-gray-200">
-              {props.label}
-            </label>
-          </div>
-        </FormControl>
+          </FormControl>
+          <label htmlFor={props.name} className="checkbox-label text-gray-200">
+            {props.label}
+          </label>
+        </div>
       );
     case FormFieldType.DATE_PICKER:
       return (
@@ -115,8 +123,8 @@ const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; pro
             src="/assets/icons/calendar.svg"
             height={24}
             width={24}
-            alt="user"
-            className="ml-2"
+            alt=""
+            className="ml-3 opacity-60"
           />
           <FormControl>
             <ReactDatePicker
@@ -138,16 +146,20 @@ const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; pro
       );
     case FormFieldType.SELECT:
       return (
-          <Select onValueChange={field.onChange} value={field.value ?? ""} disabled={props.disabled}>
-            <FormControl>
-              <SelectTrigger className="shad-select-trigger text-gray-200">
-                <SelectValue placeholder={props.placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent className="shad-select-content text-gray-200">
-              {props.children}
-            </SelectContent>
-          </Select>
+        <Select
+          onValueChange={field.onChange}
+          value={field.value ?? ""}
+          disabled={props.disabled}
+        >
+          <FormControl>
+            <SelectTrigger className="shad-select-trigger text-gray-200">
+              <SelectValue placeholder={props.placeholder} />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent className="shad-select-content text-gray-200">
+            {props.children}
+          </SelectContent>
+        </Select>
       );
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
@@ -156,7 +168,7 @@ const RenderInput = <T extends FieldValues,>({ field, props }: { field: any; pro
   }
 };
 
-const CustomFormField = <T extends FieldValues,>(props: CustomProps<T>) => {
+const CustomFormField = <T extends FieldValues>(props: CustomProps<T>) => {
   const { control, name, label } = props;
 
   return (
@@ -164,9 +176,11 @@ const CustomFormField = <T extends FieldValues,>(props: CustomProps<T>) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex-1">
+        <FormItem className="min-w-0 flex-1">
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel className="shad-input-label text-gray-200">{label}</FormLabel>
+            <FormLabel className="shad-input-label text-gray-200">
+              {label}
+            </FormLabel>
           )}
           <RenderInput field={field} props={props} />
 

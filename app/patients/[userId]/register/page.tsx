@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CareShell } from "@/components/CareShell";
 import { redirect } from "next/navigation";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { getPatient, getUser } from "@/lib/actions/patient.actions";
@@ -14,31 +14,11 @@ const Register = async ({ params }: SearchParamProps) => {
   const doctors = await getDoctors();
 
   return (
-    <div className="flex h-screen max-h-screen">
-      <section className="remove-scrollbar container">
-        <div className="sub-container max-w-[900px] flex-1 flex-col py-10">
-          <Image
-            src="/assets/icons/logo-full.svg"
-            height={1000}
-            width={1000}
-            alt="patient"
-            className="mb-12 justify-center items-center mx-auto h-20 w-fit"
-          />
-
-          <DoctorsProvider doctors={doctors}><RegisterForm user={user} /></DoctorsProvider>
-
-          <p className="copyright py-12">© 2024 MediMatrix | All Rights Reserved.</p>
-        </div>
-      </section>
-
-      <Image
-        src="/assets/images/register-img.jpg"
-        height={1000}
-        width={1000}
-        alt="patient"
-        className="side-img max-w-[550px]"
-      />
-    </div>
+    <CareShell image="/assets/images/register-img.jpg" wide>
+      <DoctorsProvider doctors={doctors}>
+        <RegisterForm user={user} />
+      </DoctorsProvider>
+    </CareShell>
   );
 };
 

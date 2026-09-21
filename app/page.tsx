@@ -1,45 +1,20 @@
-import Image from "next/image";
 import Link from "next/link";
-
+import { ArrowUpRight } from "lucide-react";
 import { PatientForm } from "@/components/forms/PatientForm";
-
-const Home = () => {
-
+import { CareShell } from "@/components/CareShell";
+export default function Home() {
   return (
-    <div className="flex h-screen max-h-screen">
-
-      <section className="remove-scrollbar container my-auto">
-        <div className="sub-container max-w-[496px]">
-          <Image
-            src="/assets/icons/logo-full.svg"
-            height={1000}
-            width={1000}
-            alt="patient"
-            className="mb-12 justify-center items-center mx-auto h-20 w-fit"
-          />
-
-          <PatientForm />
-
-          <div className="text-14-regular mt-20 flex justify-between">
-            <p className="justify-items-end text-emerald-50 xl:text-left">
-              © 2024 MediMatrix | All Rights Reserved.
-            </p>
-            <Link href="/login" className="text-emerald-50 p-2 rounded-lg bg-green-700">
-              Admin
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <Image
-        src="/assets/images/onboarding-img.jpg"
-        height={1000}
-        width={1000}
-        alt="patient"
-        className="side-img max-w-[50%]"
-      />
-    </div>
+    <CareShell>
+      <PatientForm />
+      <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-6 text-sm">
+        <span className="text-muted-foreground">Part of the care team?</span>
+        <Link
+          href="/login"
+          className="inline-flex items-center gap-2 font-medium text-primary hover:underline"
+        >
+          Staff sign in <ArrowUpRight size={16} aria-hidden="true" />
+        </Link>
+      </div>
+    </CareShell>
   );
-};
-
-export default Home;
+}

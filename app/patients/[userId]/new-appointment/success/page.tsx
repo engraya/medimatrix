@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -8,77 +8,62 @@ import { ApiError } from "@/lib/api/shared";
 import { getAppointment } from "@/lib/actions/appointment.actions";
 import { formatDateTime } from "@/lib/utils";
 
-const RequestSuccess = async ({
-  searchParams,
-  params,
-}: SearchParamProps) => {
+const RequestSuccess = async ({ searchParams, params }: SearchParamProps) => {
   const { userId } = await params;
   await requirePatient(userId);
   const appointmentId = (await searchParams).appointmentId;
-  if (typeof appointmentId !== "string" || !/^[\w-]{1,128}$/.test(appointmentId)) notFound();
+  if (
+    typeof appointmentId !== "string" ||
+    !/^[\w-]{1,128}$/.test(appointmentId)
+  )
+    notFound();
   let appointment;
-  try { appointment = await getAppointment(appointmentId); }
-  catch (error) { if (error instanceof ApiError && error.status === 404) notFound(); throw error; }
+  try {
+    appointment = await getAppointment(appointmentId);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) notFound();
+    throw error;
+  }
 
   return (
-    <div className=" flex h-screen max-h-screen px-[5%]">
-      <div className="success-img">
-        <Link href="/">
-          <Image
-            src="/assets/icons/logo-full.svg"
-            height={1000}
-            width={1000}
-            alt="logo"
-            className="h-16 w-fit"
-          />
-        </Link>
-
-        <section className="flex flex-col items-center">
-          <Image
-            src="/assets/gifs/success.gif"
-            unoptimized
-            height={300}
-            width={280}
-            alt="success"
-          />
-          <h2 className="header mb-6 max-w-[600px] text-emerald-50 text-center">
-            Your <span className="text-green-500">appointment request</span> has
-            been successfully submitted!
-          </h2>
-          <p className="text-emerald-50">We&apos;ll be in touch shortly to confirm.</p>
-        </section>
-
-        <section className="request-details text-emerald-50">
-          <p>Requested appointment details: </p>
-          <div className="flex items-center gap-3">
-            <p className="whitespace-nowrap">{appointment.doctor?.name ?? "Your selected doctor"}</p>
+    <main id="main-content" className="mx-auto max-w-2xl px-6 py-16">
+      <div className="form-section flex flex-col items-center gap-6 text-center">
+        <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 text-primary">
+          <CheckCircle2 size={40} aria-hidden="true" />
+        </div>
+        <p className="eyebrow">REQUEST RECEIVED</p>
+        <h1 className="header">You’ve taken the next step.</h1>
+        <p className="text-muted-foreground">
+          Your appointment request has been successfully submitted. Your care
+          team will be in touch to confirm.
+        </p>
+        <dl className="w-full space-y-4 rounded-xl bg-background p-6 text-left">
+          <div>
+            <dt className="text-xs text-muted-foreground">Doctor</dt>
+            <dd className="mt-1 font-medium">
+              {appointment.doctor?.name ?? "Your selected doctor"}
+            </dd>
           </div>
-          <div className="flex gap-2">
-            <Image
-              src="/assets/icons/calendar.svg"
-              height={24}
-              width={24}
-              alt="calendar"
-            />
-            <p> {formatDateTime(appointment.schedule).dateTime}</p>
+          <div>
+            <dt className="text-xs text-muted-foreground">Requested time</dt>
+            <dd className="mt-1 font-medium">
+              {formatDateTime(appointment.schedule).dateTime}
+            </dd>
           </div>
-        </section>
-
-        {/* <Button variant="outline" className="shad-primary-btn" asChild>
+        </dl>
+        <Button asChild>
           <Link href={`/patients/${userId}/new-appointment`}>
-            New Appointment
-          </Link>
-        </Button> */}
-        <Button variant="outline" className="text-white bg-red-300" asChild>
-          <Link href={`/`}>
-            Home Page
+            Request another appointment
           </Link>
         </Button>
-
-        <p className="copyright text-emerald-50">© 2024 Medimatrix</p>
+        <Link
+          className="text-sm text-primary hover:underline"
+          href={`/patients/${userId}/documents`}
+        >
+          Manage documents
+        </Link>
       </div>
-    </div>
+    </main>
   );
 };
-
 export default RequestSuccess;

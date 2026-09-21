@@ -1,16 +1,16 @@
-import Image from "next/image";
-
+import { LoaderCircle } from "lucide-react";
 export default function Loading() {
   return (
-    <div className="flex-center size-full h-screen gap-3 text-white">
-      <Image
-        src="/assets/icons/loader.svg"
-        alt="loader"
-        width={40}
-        height={3240}
-        className="animate-spin"
+    <main
+      id="main-content"
+      role="status"
+      className="flex min-h-[70dvh] flex-col items-center justify-center gap-4 text-muted-foreground"
+    >
+      <LoaderCircle
+        className="size-8 animate-spin text-primary"
+        aria-hidden="true"
       />
-      Loading...
-    </div>
+      <p>Loading your workspace...</p>
+    </main>
   );
 }

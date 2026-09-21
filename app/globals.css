@@ -49,11 +49,11 @@
   }
 
   .header {
-    @apply text-32-bold md:text-24-bold text-center;
+    @apply text-3xl font-semibold leading-tight tracking-tight sm:text-4xl;
   }
 
   .sub-header {
-    @apply text-18-bold md:text-24-bold;
+    @apply text-lg font-semibold tracking-tight;
   }
 
   .container {
@@ -83,7 +83,7 @@
 
   /* ===== ADMIN */
   .admin-header {
-    @apply sticky top-3 z-20 mx-3 flex items-center justify-between rounded-2xl bg-slate-300 px-[5%] py-5 shadow-lg xl:px-12;
+    @apply flex flex-wrap items-center justify-between gap-4 border-b border-border px-6 py-5 sm:px-10;
   }
 
   .admin-main {
@@ -114,7 +114,7 @@
 
   /* ==== Stat Card */
   .stat-card {
-    @apply flex flex-1 flex-col gap-6 rounded-2xl bg-cover p-6 shadow-lg;
+    @apply flex min-w-0 flex-1 flex-col gap-6 rounded-2xl border border-border bg-card p-6;
   }
 
   /* ==== Status Badge */
@@ -124,7 +124,7 @@
 
   /* Data Table */
   .data-table {
-    @apply z-10 w-full overflow-hidden rounded-lg border border-dark-400 shadow-lg;
+    @apply z-10 w-full overflow-hidden rounded-lg border border-dark-400 shadow-sm;
   }
 
   .table-actions {
@@ -183,7 +183,7 @@
 
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
-    @apply bg-green-500 text-white !important;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 !important;
   }
 
   .shad-danger-btn {
@@ -199,15 +199,15 @@
   }
 
   .shad-input {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 !important;
   }
 
   .shad-input-icon {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 !important;
   }
 
   .shad-textArea {
-    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+    @apply bg-dark-400 placeholder:text-dark-600 border-dark-500 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 !important;
   }
 
   .shad-combobox-item {
@@ -219,7 +219,7 @@
   }
 
   .shad-select-trigger {
-    @apply bg-dark-400  placeholder:text-dark-600 border-dark-500 h-11 focus:ring-0 focus:ring-offset-0 !important;
+    @apply bg-dark-400  placeholder:text-dark-600 border-dark-500 h-11 focus:ring-2 focus:ring-ring !important;
   }
 
   .shad-select-content {
@@ -228,10 +228,6 @@
 
   .shad-dialog {
     @apply bg-dark-400 border-dark-500 !important;
-  }
-
-  .shad-dialog button {
-    @apply focus:ring-0 focus:ring-offset-0 focus-visible:border-none focus-visible:outline-none focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
   }
 
   .shad-error {
@@ -347,4 +343,176 @@
 
 .PhoneInputInput::placeholder {
   color: #1a1d21;
+}
+@layer base {
+  :root,
+  .dark {
+    color-scheme: dark;
+    --background: 190 27% 7%;
+    --foreground: 160 20% 95%;
+    --card: 190 22% 10%;
+    --card-foreground: 160 20% 95%;
+    --popover: 190 22% 11%;
+    --popover-foreground: 160 20% 95%;
+    --primary: 164 68% 62%;
+    --primary-foreground: 185 60% 9%;
+    --secondary: 188 20% 16%;
+    --secondary-foreground: 160 20% 95%;
+    --muted: 188 18% 14%;
+    --muted-foreground: 184 13% 68%;
+    --accent: 185 24% 19%;
+    --accent-foreground: 160 20% 95%;
+    --destructive: 0 66% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 188 17% 22%;
+    --input: 188 17% 26%;
+    --ring: 164 68% 62%;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 4px;
+  }
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  ::selection {
+    background: #5ee0bf;
+    color: #082b28;
+  }
+}
+@layer components {
+  .care-shell {
+    display: grid;
+    min-height: 100dvh;
+  }
+  .care-visual {
+    display: none;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.16em] text-primary;
+  }
+  .form-section {
+    @apply rounded-2xl border border-border bg-card p-5 sm:p-7;
+  }
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-primary px-5 py-3 text-primary-foreground focus:translate-y-0;
+  }
+}
+@media (min-width: 1024px) {
+  .care-shell {
+    grid-template-columns: 55% 45%;
+  }
+  .care-shell-wide {
+    grid-template-columns: 65% 35%;
+  }
+  .care-visual {
+    display: block;
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    margin: 16px 16px 16px 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden;
+    border-radius: 24px;
+  }
+}
+.shad-input,
+.shad-input-icon,
+.shad-textArea,
+.shad-select-trigger,
+.input-phone {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--input)) !important;
+  color: hsl(var(--foreground));
+}
+.shad-input,
+.shad-select-trigger,
+.input-phone {
+  min-height: 48px;
+}
+.shad-input-label {
+  color: hsl(var(--foreground)) !important;
+}
+.shad-textArea {
+  min-height: 110px;
+}
+.shad-primary-btn,
+.shad-danger-btn {
+  min-height: 48px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.shad-input::placeholder,
+.shad-textArea::placeholder,
+.PhoneInputInput::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+.PhoneInputInput {
+  background: transparent;
+  min-width: 0;
+  color: hsl(var(--foreground));
+}
+.input-phone:focus-within {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
+}
+.checkbox-label {
+  line-height: 1.6 !important;
+}
+.file-upload {
+  min-height: 190px;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.file-upload:hover {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--accent));
+}
+.file-upload_label {
+  overflow-wrap: anywhere;
+}
+.shad-error {
+  line-height: 1.6;
+}
+.data-table {
+  background: hsl(var(--card));
+}
+.table-actions {
+  gap: 12px;
+}
+.table-actions p {
+  margin-right: auto;
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+}
+.shad-table-row:hover {
+  background: hsl(var(--accent));
+}
+.react-datepicker__day--keyboard-selected {
+  background: #245b50 !important;
+  color: white !important;
+}
+.react-datepicker__day:hover {
+  background: #245b50 !important;
+}
+.react-datepicker-popper {
+  z-index: 30 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

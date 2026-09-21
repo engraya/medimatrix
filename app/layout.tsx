@@ -30,11 +30,19 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-dark-300 font-sans antialiased",
-          fontSans.variable
+          "min-h-screen bg-background text-foreground font-sans antialiased",
+          fontSans.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" nonce={nonce}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          forcedTheme="dark"
+          nonce={nonce}
+        >
+          <a href="#main-content" className="skip-link">
+            Skip to content
+          </a>
           {children}
         </ThemeProvider>
       </body>

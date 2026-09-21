@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import { Brand } from "@/components/Brand";
 
 import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
@@ -14,40 +13,28 @@ const AdminPage = async ({ searchParams }: SearchParamProps) => {
   await requireStaff();
   const rawPage = Number((await searchParams).page ?? 1);
   const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1;
-  const [appointments, doctors] = await Promise.all([getRecentAppointmentList(page), getDoctors()]);
+  const [appointments, doctors] = await Promise.all([
+    getRecentAppointmentList(page),
+    getDoctors(),
+  ]);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
-        <Link href="/" className="cursor-pointer flex gap-x-4">
-          <Image
-            src="/assets/icons/logo-full.svg"
-            height={32}
-            width={162}
-            alt="logo"
-            className="h-8 w-fit"
-          />
-            <h1 className="text-xl font-extrabold text-center leading-none tracking-normal text-gray-900 md:text-3xl md:tracking-tight">
-              <span className="block w-full underline text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
-              Medimatrix
-              </span>
-            </h1>
-        </Link>
+        <Brand />
 
-        <p className="text-16-semibold">Admin Dashboard</p>
+        <span className="hidden rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground sm:inline-flex">
+          Care team workspace
+        </span>
         <LogoutButton />
       </header>
 
-      <main className="admin-main">
-        <section className="w-full space-y-4">
-        <h1 className="text-xl font-extrabold text-center leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
-              <span className="block w-full underline text-transparent text-center bg-clip-text bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
-              Welcome to Admin Dashboard
-              </span>
-            </h1>
-          <h1 className="header"> 👋</h1>
-          <p className="text-dark-700 text-center">
-            Start the day with managing new appointments
+      <main id="main-content" className="admin-main">
+        <section className="w-full space-y-3">
+          <p className="eyebrow">OVERVIEW</p>
+          <h1 className="header">Appointments at a glance.</h1>
+          <p className="text-muted-foreground">
+            Review requests, coordinate schedules, and keep patient care moving.
           </p>
         </section>
 
@@ -72,8 +59,19 @@ const AdminPage = async ({ searchParams }: SearchParamProps) => {
           />
         </section>
 
+        <div className="w-full space-y-2">
+          <h2 className="sub-header">Appointment requests</h2>
+          <p className="text-sm text-muted-foreground">
+            Manage your patients’ upcoming visits.
+          </p>
+        </div>
         <DoctorsProvider doctors={doctors}>
-          <DataTable columns={columns} data={appointments.documents} page={page} total={appointments.totalCount} />
+          <DataTable
+            columns={columns}
+            data={appointments.documents}
+            page={page}
+            total={appointments.totalCount}
+          />
         </DoctorsProvider>
       </main>
     </div>
